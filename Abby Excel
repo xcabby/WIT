@@ -1,3 +1,34 @@
-Sub test ()
-This is a test
-Sub end
+Sub import_csv()
+Dim vPath As Variant
+Dim wb As Excel.Workbook
+Dim ws As Excel.Worksheet
+
+
+Set wb = Excel.ActiveWorkbook
+Set ws = Excel.ActiveSheet
+
+
+vPath = Application.GetOpenFilename("CSV (Comma Delimited) (*.*),*.*" _
+, 1, "Select a file", , False)
+''//Show the file open dialog to allow user to select a CSV file
+
+
+If vPath = False Then Exit Sub
+''//Exit macro if no file selected
+
+
+Workbooks.OpenText Filename:=vPath, Origin:=x437, StartRow:=1 _
+, DataType:=xlDelimited, TextQualifier:=xlDoubleQuote, Comma:=True _
+''//The fieldinfo array needs to be extended to match the number of columns
+
+
+Columns.EntireColumn.AutoFit
+''//Resize the columns
+
+
+Sheets(1).Move after:=wb.Sheets(1)
+''//Move the data into the Workbook
+
+
+End Sub
+
